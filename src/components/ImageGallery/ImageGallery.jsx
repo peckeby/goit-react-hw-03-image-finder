@@ -1,5 +1,4 @@
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
-import { lazy } from 'react';
 
 export default function ImageGallery({ onClick, apiData }) {
   return (
