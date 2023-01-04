@@ -1,6 +1,6 @@
 import { Component } from 'react';
 
-import api from 'api/api';
+import fetchPhotosWithQuery from 'api/api';
 
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
@@ -35,7 +35,7 @@ export class App extends Component {
     if (prevState.searchQuery !== this.state.searchQuery) {
       this.setState({ isLoading: true });
       try {
-        const pictures = await api.fetchPhotosWithQuery(
+        const pictures = await fetchPhotosWithQuery(
           this.state.searchQuery,
           this.state.page
         );
@@ -55,7 +55,7 @@ export class App extends Component {
 
     if (prevState.page !== this.state.page) {
       try {
-        const pictures = await api.fetchPhotosWithQuery(
+        const pictures = await fetchPhotosWithQuery(
           this.state.searchQuery,
           this.state.page
         );
