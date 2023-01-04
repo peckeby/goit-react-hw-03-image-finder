@@ -110,6 +110,7 @@ export class App extends Component {
     const overlay = document.querySelector('.Overlay');
     if (evt.target === overlay) {
       overlay.classList.toggle('visually-hidden');
+      this.setState({ modalPicture: {} });
     }
   };
 
@@ -117,6 +118,7 @@ export class App extends Component {
     const overlay = document.querySelector('.Overlay');
     if (event.key === 'Escape') {
       overlay.classList.toggle('visually-hidden');
+      this.setState({ modalPicture: {} });
     }
   }
 

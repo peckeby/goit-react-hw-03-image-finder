@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function Modal({ picture, handleClick, handleKeyDown }) {
   return (
     <div
@@ -6,8 +8,14 @@ export default function Modal({ picture, handleClick, handleKeyDown }) {
       onKeyDown={handleKeyDown}
     >
       <div className="Modal">
-        <img src={picture.largeImageURL} alt={picture.tags} />
+        <img src={picture.largeImageURL} alt={picture.tags} loading="lazy" />
       </div>
     </div>
   );
 }
+
+Modal.propTypes = {
+  picture: PropTypes.object.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  handleKeyDown: PropTypes.func.isRequired,
+};

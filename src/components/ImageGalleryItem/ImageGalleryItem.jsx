@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function ImageGalleryItem({ propUrl, propAlt, propId }) {
   return (
     <li className="ImageGalleryItem">
@@ -11,3 +13,9 @@ export default function ImageGalleryItem({ propUrl, propAlt, propId }) {
     </li>
   );
 }
+
+ImageGalleryItem.propTypes = {
+  propUrl: PropTypes.string.isRequired,
+  propAlt: PropTypes.string.isRequired,
+  propId: PropTypes.number.isRequired,
+};
