@@ -6,29 +6,12 @@ import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
 import Loader from './Loader/Loader';
-import Modal from './Modal/Modal';
+import { Modal } from './Modal/Modal';
 
 export class App extends Component {
   constructor(props) {
     super(props);
-    this.escFunction = this.escFunction.bind(this);
-  }
-
-  state = {
-    searchQuery: null,
-    pictures: [],
-    page: 1,
-    error: null,
-    hitsNumber: null,
-    isLoading: false,
-    modalPicture: {},
-  };
-
-  componentDidMount() {
-    document.addEventListener('keydown', this.escFunction, false);
-  }
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.escFunction, false);
+    this.state = { modalPicture: {} };
   }
 
   async componentDidUpdate(_, prevState) {
@@ -82,6 +65,7 @@ export class App extends Component {
         page: prevState.page + 1,
       };
     });
+    console.log(this.state.pictures.length);
   };
 
   handleSubmit = evt => {
@@ -93,6 +77,7 @@ export class App extends Component {
       return alert('Please, type any search request!');
     } else {
       this.setState({ searchQuery: inputValue });
+      this.setState({ page: 1 });
     }
   };
 
@@ -106,41 +91,22 @@ export class App extends Component {
     overlay.classList.toggle('visually-hidden');
   };
 
-  closeModal = evt => {
-    const overlay = document.querySelector('.Overlay');
-    if (evt.target === overlay) {
-      overlay.classList.toggle('visually-hidden');
-      this.setState({ modalPicture: {} });
-    }
-  };
-
-  escFunction(event) {
-    const overlay = document.querySelector('.Overlay');
-    if (event.key === 'Escape') {
-      overlay.classList.toggle('visually-hidden');
-      this.setState({ modalPicture: {} });
-    }
-  }
-
   render() {
     const { page, pictures, hitsNumber, isLoading, error, modalPicture } =
       this.state;
+
     return (
       <div className="App">
         <Searchbar onSubmit={this.handleSubmit} />
         {error && <p>Whoops, something went wrong 😢: {error.message}</p>}
         {hitsNumber > 0 && (
           <>
-            <ImageGallery apiData={pictures} onClick={this.openModal} />
             {isLoading && <Loader />}
+            <ImageGallery apiData={pictures} onClick={this.openModal} />
             {hitsNumber > 12 && page < 41 && pictures.length !== hitsNumber && (
               <Button handleClick={this.pageChange} />
             )}
-            <Modal
-              picture={modalPicture}
-              handleClick={this.closeModal}
-              handleKeyDown={this.escFunction}
-            />
+            <Modal img={modalPicture} />
           </>
         )}
       </div>
