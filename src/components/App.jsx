@@ -9,10 +9,15 @@ import Loader from './Loader/Loader';
 import { Modal } from './Modal/Modal';
 
 export class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { modalPicture: {} };
-  }
+  state = {
+    modalPicture: null,
+    page: 0,
+    hitsNumber: null,
+    pictures: null,
+    error: null,
+    searchQuery: null,
+    isLoading: false,
+  };
 
   async componentDidUpdate(_, prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
@@ -65,7 +70,6 @@ export class App extends Component {
         page: prevState.page + 1,
       };
     });
-    console.log(this.state.pictures.length);
   };
 
   handleSubmit = evt => {
@@ -87,8 +91,18 @@ export class App extends Component {
       picture => picture.id === Number(evt.target.id)
     );
     this.setState({ modalPicture: ImgForModal[0] });
-    const overlay = document.querySelector('.Overlay');
-    overlay.classList.toggle('visually-hidden');
+  };
+
+  escFunction = event => {
+    if (event.key === 'Escape') {
+      this.setState({ modalPicture: null });
+    }
+  };
+
+  closeModal = evt => {
+    if (evt.target === evt.currentTarget) {
+      this.setState({ modalPicture: null });
+    }
   };
 
   render() {
@@ -106,7 +120,13 @@ export class App extends Component {
             {hitsNumber > 12 && page < 41 && pictures.length !== hitsNumber && (
               <Button handleClick={this.pageChange} />
             )}
-            <Modal img={modalPicture} />
+            {modalPicture && (
+              <Modal
+                img={modalPicture}
+                escFunction={this.escFunction}
+                closeModal={this.closeModal}
+              />
+            )}
           </>
         )}
       </div>
