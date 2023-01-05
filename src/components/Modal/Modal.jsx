@@ -4,10 +4,10 @@ import { Component } from 'react';
 
 export class Modal extends Component {
   componentDidMount() {
-    document.addEventListener('keydown', this.escFunction, false);
+    document.addEventListener('keydown', this.props.escFunction, false);
   }
   componentWillUnmount() {
-    document.removeEventListener('keydown', this.escFunction, false);
+    document.removeEventListener('keydown', this.props.escFunction, false);
   }
 
   render() {
@@ -24,4 +24,6 @@ export class Modal extends Component {
 
 Modal.propTypes = {
   img: PropTypes.object.isRequired,
+  escFunction: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
 };
